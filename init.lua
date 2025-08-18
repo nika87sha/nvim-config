@@ -32,11 +32,10 @@ vim.opt.rtp:prepend(lazypath)
 -- =========================
 -- 3️⃣ Cargar todos los plugins desde lua/plugins/
 -- =========================
-require("lazy").setup("plugins", {
-  defaults = { lazy = true },
-  install = { colorscheme = { "default" } },
+require("lazy").setup(require("plugins"), {
+  defaults = { lazy = false },
+  install = { colorscheme = { "tokyonight-storm" } },
 })
-
 -- =========================
 -- 4️⃣ Colores y tema
 -- =========================

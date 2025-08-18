@@ -1,37 +1,37 @@
--- ~/.config/nvim2k/lua/plugins/init.lua
+return {
+    -- UI y tema
+    require("plugins.alpha"),
+    require("plugins.tokyonight"),
+    require("plugins.lualine"),
+    require("plugins.colorizer"),
+    require("plugins.twilight"),
 
-local plugins = {}
+    -- Navegación y búsqueda
+    require("plugins.treesitter"),
+    require("plugins.mini"),
+    require("plugins.telescope"),
+    require("plugins.filetree"),
+    require("plugins.fzf-lua"),
+    require("plugins.fterm"),
+    require("plugins.cmp"),
 
--- UI y tema
-table.insert(plugins, require("plugins.alpha"))
-table.insert(plugins, require("plugins.tokyonight"))
-table.insert(plugins, require("plugins.lualine"))
-table.insert(plugins, require("plugins.colorizer"))
-table.insert(plugins, require("plugins.twilight"))
+    -- Desarrollo
+    require("plugins.mason"),          -- << Asegúrate de tener este
+    require("plugins.lsp"),
+    require("plugins.autopairs"),
+    require("plugins.comment"),
+    require("plugins.nvim-lint"),
+    require("plugins.render-markdown"),
 
--- Navegación y búsqueda
-table.insert(plugins, require("plugins.treesitter"))
-table.insert(plugins, require("plugins.telescope"))
-table.insert(plugins, require("plugins.filetree"))
-table.insert(plugins, require("plugins.fzf-lua"))
-table.insert(plugins, require("plugins.fterm"))
+    -- Git y utilidades
+    require("plugins.git"),
+    require("plugins.gitsigns"),
+    require("plugins.utilities"),
 
--- Desarrollo
-table.insert(plugins, require("plugins.lsp"))
-table.insert(plugins, require("plugins.autopairs"))
-table.insert(plugins, require("plugins.comment"))
-table.insert(plugins, require("plugins.nvim-lint"))
-table.insert(plugins, require("plugins.render-markdown"))
-
--- Git y utilidades
-table.insert(plugins, require("plugins.git"))
-table.insert(plugins, require("plugins.gitsigns"))
-table.insert(plugins, require("plugins.utilities"))
-
--- Otros
-table.insert(plugins, require("plugins.which-key"))
-table.insert(plugins, require("plugins.indent-blankline"))
-table.insert(plugins, require("plugins.barbar"))
-
-return plugins
+    -- Otros
+    require("plugins.which-key"),
+    require("plugins.avante"),
+    require("plugins.indent-blankline"),
+    require("plugins.barbar"),
+}
 

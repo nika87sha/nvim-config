@@ -536,4 +536,3 @@ return {
     which_key.add(user_keybindings)
   end
 }
-
