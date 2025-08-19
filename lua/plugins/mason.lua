@@ -13,7 +13,7 @@ return {
     local mason_lspconfig = require("mason-lspconfig")
 
     mason_lspconfig.setup({
-      ensure_installed = { "lua_ls", "pyright", "tsserver" }, -- ajusta a tus LSP
+      ensure_installed = { "lua_ls", "pyright"}, -- ajusta a tus LSP
       automatic_installation = true, -- ✅ solo boolean o lista
     })
 
