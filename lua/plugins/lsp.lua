@@ -7,7 +7,7 @@ return {
     local mason_lspconfig = require("mason-lspconfig")
 
     mason.setup()
-    mason_lspconfig.setup({ ensure_installed = { "bashls", "jdtls", "pyright", "clangd", "clang-format", "groovyls", "ansiblels"}})
+    mason_lspconfig.setup({ ensure_installed = { "bashls", "jdtls", "pyright", "clangd", "groovyls", "ansiblels"}})
 
     local on_attach = function(client, bufnr)
       local wk = require("which-key")
