@@ -5,6 +5,7 @@ return {
     require("plugins.lualine"),
     require("plugins.colorizer"),
     require("plugins.twilight"),
+    require("plugins.mini-icons"),
 
     -- Navegación y búsqueda
     require("plugins.treesitter"),
@@ -22,6 +23,7 @@ return {
     require("plugins.comment"),
     require("plugins.nvim-lint"),
     require("plugins.render-markdown"),
+    require("plugins.codecompanion"),
 
     -- Git y utilidades
     require("plugins.git"),
