@@ -20,9 +20,6 @@ return {
     -- Capabilities para autocompletado
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    -- Configuración de servidores LSP
-    local lspconfig = require("lspconfig")
-
     -- Si existe setup_handlers (versiones nuevas)
     if mason_lspconfig.setup_handlers then
       mason_lspconfig.setup_handlers({
@@ -32,14 +29,7 @@ return {
           })
         end,
       })
-    else
-      -- 🔙 fallback para versiones viejas
-      for _, server in ipairs(mason_lspconfig.get_installed_servers()) do
-        lspconfig[server].setup({
-          capabilities = capabilities,
-        })
-      end
-    end
+   end
   end,
 }
 

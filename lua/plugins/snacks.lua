@@ -1,16 +1,12 @@
-require('lazy').setup({
-  {
-    'folke/snacks.nvim',
-    priority = 1000,
-    lazy = false,
-    config = function()
-      local status_ok, Snacks = pcall(require, 'snacks')
-      if not status_ok then
-          vim.notify("snacks.nvim no está instalado", vim.log.levels.WARN)
-          return
-      end
+return {
+  'folke/snacks.nvim',
+  priority = 1000,
+  lazy = false, -- Això assegura que es carregui al inici
+  config = function()
+    -- Només carreguem el mòdul.
+    local snacks = require('snacks')
 
-      Snacks.setup({
+    snacks.setup({ -- Utilitzem la variable local 'snacks'
           animate = { enabled = true, duration = 20, fps = 60 },
           dashboard = { enabled = true },
           picker = { enabled = true },
@@ -37,7 +33,5 @@ require('lazy').setup({
           },
           zen = { enabled = true, toggles = { dim = true } },
       })
-    end
-  },
-})
-
+  end,
+}
