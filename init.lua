@@ -1,21 +1,5 @@
--- ~/.config/nvim2k/init.lua
-
--- =========================
--- 1️⃣ Configuración básica
--- =========================
-vim.opt.termguicolors = true
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.wrap = false
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
-vim.opt.cursorline = true
-vim.opt.background = "dark"
-
--- =========================
--- 2️⃣ Instalar Lazy.nvim si no existe
--- =========================
+-- init.lua
+-- Inicializa Lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -29,36 +13,25 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- =========================
--- 3️⃣ Cargar todos los plugins desde lua/plugins/
--- =========================
-require("lazy").setup(require("plugins"), {
-  defaults = { lazy = false },
-  install = { colorscheme = { "tokyonight-storm" } },
-})
--- =========================
--- 4️⃣ Colores y tema
--- =========================
-vim.cmd([[colorscheme tokyonight-storm]])
+-- Carga los plugins
+require("lazy").setup("plugins")  -- plugins.lua con la lista de plugins
 
--- =========================
--- 5️⃣ Opciones y ajustes globales
--- =========================
--- Puedes añadir aquí tus ajustes personalizados
-vim.g.mapleader = " "
-vim.opt.signcolumn = "yes"
-vim.opt.clipboard = "unnamedplus"
-vim.opt.scrolloff = 8
-vim.opt.sidescrolloff = 8
+-- Carga tus módulos de configuración (LSP, UI, snippets)
+require('lsp.python')
+require('lsp.java')
+require('lsp.bash')
+require('lsp.yaml_docker')
 
--- =========================
--- 6️⃣ Autocomandos
--- =========================
--- Ejemplo: recargar init.lua al guardarlo
-vim.cmd([[
-  augroup reload_init
-    autocmd!
-    autocmd BufWritePost init.lua source <afile> | PackerCompile
-  augroup end
-]])
+require('ui.telescope')
+require('ui.bufferline')
+require('ui.incline')
+require('ui.noice_notify')
+
+require('testing.neotest')
+require('testing.refactoring')
+
+require('snippets.python')
+require('snippets.java')
+require('snippets.bash')
+require('snippets.yaml_docker')
 
