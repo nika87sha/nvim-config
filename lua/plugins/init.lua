@@ -35,5 +35,4 @@ return {
   require("plugins.avante"),
   require("plugins.indent-blankline"),
   require("plugins.barbar"),
-  require("plugins.tdo"),
 }
