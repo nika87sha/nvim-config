@@ -63,5 +63,4 @@ require('snippets.bash')
 require('snippets.yaml_docker')
 
 require('plugins.avante')
-
-
+require('plugins.seeker')
