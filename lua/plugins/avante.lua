@@ -1,6 +1,7 @@
 -- ~/.config/nvim/lua/plugins/avante.lua
 return {
   "yetone/avante.nvim",
+  lazy = false,
   dependencies = {
     "MunifTanjim/nui.nvim",
     "hrsh7th/nvim-cmp",
@@ -17,12 +18,11 @@ return {
 
     -- Avante setup con nueva sintaxis
     require("avante").setup({
-      provider = "ollama",
-      providers = {
-        ollama = {
-          model = "llama2:7b", -- cámbialo al modelo que tengas instalado
-            endpoint = "http://localhost:11434",
-        },
+      provider = "openai",
+      openai ={
+	      api_base = "https://openrouter.ai/api/v1",
+	      model = "deepseek/deepseek-chat",
+	      api_key_name = "OPENROUTER_API_KEY",
       },
     })
 

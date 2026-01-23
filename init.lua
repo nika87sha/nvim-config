@@ -20,6 +20,15 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  once = true,
+  callback = function()
+    vim.fn.sign_define("AvanteInputPromptSign", {
+      text = "󰭹",
+      texthl = "Comment",
+    })
+  end,
+})
 -- ======================================
 -- 3️⃣ Carga plugins desde plugins.lua
 -- ======================================
@@ -52,5 +61,7 @@ require('snippets.python')
 require('snippets.java')
 require('snippets.bash')
 require('snippets.yaml_docker')
+
+require('plugins.avante')
 
 
