@@ -4,8 +4,6 @@ return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   config = function()
-    -- Ara, 'which-key' carrega el mòdul which-key (el plugin) correctament,
-    -- ja que aquesta funció s'executa DINS del context de Lazy.nvim
     local which_key = require('which-key')
     local icons = require('lib.icons')
     local util = require('lib.util')
@@ -18,7 +16,7 @@ return {
         registers = true,
         spelling = {
           enabled = true,
-          suggestions = 30,
+          suggestions = 40,
         },
         presets = {
           operators = true,
@@ -277,7 +275,7 @@ return {
       { '<leader>tp', ':Sterm bpython<cr>', desc = 'Python' },
       { '<leader>tr', ':Sterm irb<cr>', desc = 'Ruby' },
       { '<leader>ts', ':Sterm<cr>', desc = 'Horizontal Terminal' },
-      { '<leader>tt', ':Fterm<cr>', desc = 'Terminal' },
+      { '<leader>tt', ':FTerm<cr>', desc = 'Terminal' },
       { '<leader>tv', ':Vterm<cr>', desc = 'Vertical Terminal' },
       { '<leader>tw', ':Sterm dexe --wait-before-exit<cr>', desc = 'Exe Launcher, Wait' },
 

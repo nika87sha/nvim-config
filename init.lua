@@ -32,7 +32,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- ======================================
 -- 3️⃣ Carga plugins desde plugins.lua
 -- ======================================
-require("lazy").setup("plugins")  -- plugins.lua con TODOS tus plugins
+require("lazy").setup('plugins')
 
 -- ======================================
 -- 4️⃣ Carga módulos de configuración
@@ -64,3 +64,4 @@ require('snippets.yaml_docker')
 
 require('plugins.avante')
 require('plugins.seeker')
+require('plugins.fterm')
