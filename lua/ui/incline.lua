@@ -1,1 +1,0 @@
-require('incline').setup{ debounce_threshold = 10, render = function(props) return props.buf_name end }

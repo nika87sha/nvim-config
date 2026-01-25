@@ -40,19 +40,16 @@ require("lazy").setup('plugins')
 
 -- LSP
 require('lsp.python')
-require('lsp.java')
+--require('lsp.java')
 require('lsp.bash')
 require('lsp.yaml_docker')
 
 -- UI
-require('ui.dashboard')       -- dashboard
+require('ui.alpha')       -- dashboard
 require('ui.telescope')
 require('ui.bufferline')
-require('ui.incline')
-require('ui.noice_notify')
-require('ui.mini_hipatterns')
+require('ui.hipatterns')
 
--- Testing & Refactoring
 require('testing.neotest')
 require('testing.refactoring')
 
@@ -64,4 +61,3 @@ require('snippets.yaml_docker')
 
 require('plugins.avante')
 require('plugins.seeker')
-require('plugins.fterm')
