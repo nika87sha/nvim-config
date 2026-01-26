@@ -10,7 +10,17 @@ local map = vim.keymap.set
 map("n", "<leader>pp", ":Lazy<CR>", { desc = "Plugins (Lazy)" })
 
 -- Explorador (nvim-tree) - si no lo usas, elimina
-map("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+vim.keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", {
+  desc = "Explorer: toggle",
+  silent = true,
+})
+
+vim.keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFile<CR>", {
+  desc = "Explorer: find file",
+  silent = true,
+})
+
+
 
 -- fzf-lua shortcuts (si usas fzf-lua)
 map("n", "<leader>ff", ":FzfLua files<CR>", { desc = "Find files" })

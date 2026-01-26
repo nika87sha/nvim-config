@@ -1,96 +1,77 @@
--- plugins/which-key.lua
+-- ~/.config/nvim/lua/plugins/which-key.lua
 return {
   "folke/which-key.nvim",
-  config = function()
+  event = "VeryLazy",
+  opts = {
+    preset = "modern",
+    delay = 200,
+    icons = {
+      breadcrumb = "»",
+      separator = "➜",
+      group = "",
+    },
+    win = {
+      border = "rounded",
+      padding = { 1, 2 },
+    },
+  },
+  config = function(_, opts)
     local wk = require("which-key")
-    wk.setup {
-      plugins = {
-        spelling = {
-          enabled = true,
-        },
-      },
-      ignore_missing = true,
-    }
+    wk.setup(opts)
 
-		  {
-    { "<leader>CP", desc = ":CCCCONVERT<CR>" },
-    { "<leader>CR", desc = ":RELOADCONFIG<CR>" },
-    { "<leader>a", group = " AI" },
-    { "<leader>aC", desc = ":AvanteClear<CR>" },
-    { "<leader>am", desc = ":MCPHub<CR>" },
-    { "<leader>an", desc = ":AvanteChatNew<CR>" },
-    { "<leader>ap", group = "Insert Prompt" },
-    { "<leader>apd", desc = "<cmd>lua require('lib.prompts').add_prompt('docs')<CR>" },
-    { "<leader>ape", desc = "<cmd>lua require('lib.prompts').add_prompt('explain')<CR>" },
-    { "<leader>apf", desc = "<cmd>lua require('lib.prompts').add_prompt('fix')<CR>" },
-    { "<leader>apg", desc = "<cmd>lua require('lib.prompts').add_prompt('commit')<CR>" },
-    { "<leader>apo", desc = "<cmd>lua require('lib.prompts').add_prompt('optimize')<CR>" },
-    { "<leader>apr", desc = "<cmd>lua require('lib.prompts').add_prompt('review')<CR>" },
-    { "<leader>apt", desc = "<cmd>lua require('lib.prompts').add_prompt('tests')<CR>" },
-    { "<leader>c", group = " Code" },
-    { "<leader>cF", desc = ":retab<CR>" },
-    { "<leader>cc", desc = ":CccHighlighterToggle<CR>" },
-    { "<leader>cd", desc = ":RootDir<CR>" },
-    { "<leader>ce", desc = ":%SnipRun<CR>" },
-    { "<leader>cf", desc = ":lua vim.lsp.buf.format({async = true})<CR>" },
-    { "<leader>cl", desc = "::g/\\s*$/d<CR>" },
-    { "<leader>cm", desc = ":MarkdownPreviewToggle<CR>" },
-    { "<leader>co", desc = ":Dashboard<CR>" },
-    { "<leader>cp", desc = ":CccPick<CR>" },
-    { "<leader>cs", desc = ":source %<CR>" },
-    { "<leader>e", group = " Edit" },
-    { "<leader>eE", desc = ":NvimTreeToggle<CR>" },
-    { "<leader>ea", desc = ":b#<CR>" },
-    { "<leader>ec", group = "Edit Configs" },
-    { "<leader>ef", desc = "gf" },
-    { "<leader>em", desc = ":e README.md<CR>" },
-    { "<leader>en", desc = ":enew<CR>" },
-    { "<leader>et", desc = ":NvimTreeFindFile<CR>" },
-    { "<leader>f", group = " Find" },
-    { "<leader>fb", desc = "<cmd>Telescope buffers<CR>" },
-    { "<leader>ff", desc = "<cmd>Telescope find_files<CR>" },
-    { "<leader>fg", desc = "<cmd>Telescope live_grep<CR>" },
-    { "<leader>fh", desc = "<cmd>Telescope help_tags<CR>" },
-    { "<leader>fx", desc = ":%bd|e#|bd#<CR>" },
-    { "<leader>g", group = " Git" },
-    { "<leader>gA", desc = ":Gitsigns stage_buffer<CR>" },
-    { "<leader>gB", desc = ":lua require('snacks').git.blame_line()<CR>" },
-    { "<leader>gC", desc = ":CoAuthor<CR>" },
-    { "<leader>gF", desc = ":Git<CR>" },
-    { "<leader>gP", desc = ":Git push<CR>" },
-    { "<leader>gR", desc = ":Gitsigns reset_buffer<CR>" },
-    { "<leader>ga", desc = ":Gitsigns stage_hunk<CR>" },
-    { "<leader>gb", desc = ":lua require('gitsigns').blame_line({full = true})<CR>" },
-    { "<leader>gc", desc = ":Git commit<CR>" },
-    { "<leader>gd", desc = ":Gitsigns diffthis HEAD<CR>" },
-    { "<leader>gg", desc = ':lua require("snacks").lazygit()<CR>' },
-    { "<leader>gi", desc = ":Gitsigns preview_hunk<CR>" },
-    { "<leader>gj", desc = ":Gitsigns next_hunk<CR>" },
-    { "<leader>gk", desc = ":Gitsigns prev_hunk<CR>" },
-    { "<leader>gp", desc = ":Git pull<CR>" },
-    { "<leader>gr", desc = ":Gitsigns reset_hunk<CR>" },
-    { "<leader>gtb", desc = ":Gitsigns toggle_current_line_blame<CR>" },
-    { "<leader>gtd", desc = ":Gitsigns toggle_deleted<CR>" },
-    { "<leader>gtl", desc = ":Gitsigns toggle_linehl<CR>" },
-    { "<leader>gtn", desc = ":Gitsigns toggle_numhl<CR>" },
-    { "<leader>gts", desc = ":Gitsigns toggle_signs<CR>" },
-    { "<leader>gtw", desc = ":Gitsigns toggle_word_diff<CR>" },
-    { "<leader>gu", desc = ":Gitsigns undo_stage_hunk<CR>" },
-    { "<leader>gv", desc = ":Gitsigns select_hunk<CR>" },
-    { "<leader>gw", desc = ':lua require("snacks").gitbrowse()<CR>' },
-    { "<leader>r", group = " Refactor" },
-    { "<leader>ra", desc = ":lua require('spectre').open()<CR>" },
-    { "<leader>rb", desc = ":lua require('spectre').open_file_search()<CR>" },
-    { "<leader>rd", desc = ":lua vim.lsp.buf.definition()<CR>" },
-    { "<leader>rh", desc = ':echo "List Definition Head"<CR>' },
-    { "<leader>rj", desc = ':echo "Next Usage"<CR>' },
-    { "<leader>rk", desc = ':echo "Previous Usage"<CR>' },
-    { "<leader>rl", desc = ':echo "List Definition"<CR>' },
-    { "<leader>rn", desc = ':echo "Swap Next"<CR>' },
-    { "<leader>rp", desc = ':echo "Swap Previous"<CR>' },
-    { "<leader>rr", desc = ":Lspsaga rename<CR>" },
-    { "<leader>rw", desc = ":lua require('spectre').open_visual({select_word=true})<CR>" },
-    { "<leader>x", desc = ":x<CR>" },
-  }
+    -- =========================================================
+    -- REGISTRO DE GRUPOS (NO MAPPINGS REALES)
+    -- =========================================================
 
+    wk.add({
+      { "<leader>a", group = " AI" },
+      { "<leader>ap", group = " Prompts" },
+
+      { "<leader>c", group = " Code" },
+
+      { "<leader>e", group = " Edit / Explorer" },
+      { "<leader>ec", group = " Edit Configs" },
+
+      { "<leader>f", group = " Find" },
+
+      { "<leader>g", group = " Git" },
+      { "<leader>gt", group = "󰊢 Git Toggle" },
+
+      { "<leader>r", group = " Refactor" },
+
+      { "<leader>w", desc = "Save file" },
+      { "<leader>q", desc = "Quit" },
+      { "<leader>x", desc = "Save & Quit" },
+
+      { "<leader>pp", desc = "Plugins (Lazy)" },
+
+      -- Explorador (nvim-tree)
+      { "<leader>ee", desc = "Toggle file explorer" },
+      { "<leader>ef", desc = "Reveal file in tree" },
+
+      -- Telescope / FZF
+      { "<leader>ff", desc = "Find files" },
+      { "<leader>fg", desc = "Live grep" },
+      { "<leader>fb", desc = "Buffers" },
+      { "<leader>fh", desc = "Help" },
+
+      -- Git (descripciones claras)
+      { "<leader>ga", desc = "Stage hunk" },
+      { "<leader>gr", desc = "Reset hunk" },
+      { "<leader>gb", desc = "Blame line" },
+      { "<leader>gd", desc = "Diff this" },
+      { "<leader>gp", desc = "Git pull" },
+      { "<leader>gP", desc = "Git push" },
+      { "<leader>gc", desc = "Git commit" },
+      { "<leader>gg", desc = "LazyGit" },
+
+      -- Refactor / LSP
+      { "<leader>rr", desc = "Rename symbol" },
+      { "<leader>ra", desc = "Search (Spectre)" },
+      { "<leader>rb", desc = "Search in file" },
+      { "<leader>rw", desc = "Search word" },
+      { "<leader>rd", desc = "Go to definition" },
+    })
+  end,
+}
 
