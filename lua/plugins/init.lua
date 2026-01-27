@@ -9,7 +9,6 @@ return {
 
   -- Navegación y búsqueda
   require("plugins.treesitter"),
-  require("plugins.mini"),
   require("plugins.telescope"),
   require("plugins.filetree"),
   require("plugins.fzf-lua"),

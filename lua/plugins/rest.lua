@@ -4,7 +4,11 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("rest-nvim").setup({
-        -- Configuración por defecto
+        result = { -- Añadimos el '=' aquí
+          formatters = {
+            json = "jq",
+          },
+        },
         result_split_horizontal = false,
         result_split_vertical = true,
         highlight = {
