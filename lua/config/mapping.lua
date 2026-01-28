@@ -76,8 +76,8 @@ end, { desc = "Smart picker" })
 -- EXPLORER (nvim-tree)
 -- =========================================================
 
-map("n", "<leader>ft", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer toggle" })
-map("n", "<leader>fn", "<cmd>NvimTreeFindFile<CR>", { desc = "Explorer find file" })
+map("n", "<leader>ft", ":NvimTreeToggle", { desc = "Explorer toggle" })
+map("n", "<leader>fn", ":NvimTreeFindFile<CR>", { desc = "Explorer find file" })
 
 -- =========================================================
 -- BUFFERS
