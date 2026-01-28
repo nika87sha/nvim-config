@@ -120,6 +120,9 @@ map("n", "<leader>sz", function()
   snacks.zen()
 end, { desc = "Zen mode" })
 
+-- Vim REST Console
+("n", "<leader>xr", ":call VrcQuery()<CR>", {desc = "Run Rest"}) -- Run REST query
+
 -- =========================================================
 -- SYSTEM
 -- =========================================================
@@ -127,4 +130,5 @@ end, { desc = "Zen mode" })
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" })
 map("n", "<leader>pp", "<cmd>Lazy<CR>", { desc = "Plugin manager (Lazy)" })
+
 

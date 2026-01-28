@@ -1,4 +1,4 @@
--- ~/.config/nvim/lua/plugins/which-key.lua
+--~/.config/nvim/lua/plugins/which-key.lua
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
@@ -71,6 +71,9 @@ return {
       { "<leader>p", group = "󰏖 Plugins" },
       { "<leader>pp", desc = "Lazy plugin manager" },
 
+      -- REST API
+      { "<leader>x", group = "API"},
+      { "<leader>xr", desc = "REST API"},
       -- =====================================================
       -- FILE ACTIONS
       -- =====================================================
