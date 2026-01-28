@@ -45,7 +45,6 @@ require('lsp.bash')
 require('lsp.yaml_docker')
 
 -- UI
---require('ui.alpha')       -- dashboard
 require('ui.telescope')
 require('ui.bufferline')
 require('ui.hipatterns')
@@ -96,4 +95,5 @@ require("plugins.which-key")
 require("plugins.avante")
 require("plugins.indent-blankline")
 require("plugins.barbar")
+require('plugins.fterm')
 
