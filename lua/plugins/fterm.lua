@@ -2,7 +2,7 @@
 return {
   {
     "numtostr/FTerm.nvim",
-    lazy = true,       -- carga bajo demanda
+    lazy = false,       -- carga bajo demanda
     event = "VeryLazy", -- o un evento como BufRead
     config = function()
       local FTerm = require("FTerm")

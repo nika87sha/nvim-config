@@ -1,5 +1,6 @@
 return {
   "chentoast/marks.nvim",
+  lazy = false,
   event = "BufReadPost",
   config = function()
     local marks = require("marks")

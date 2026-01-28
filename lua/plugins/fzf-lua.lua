@@ -1,6 +1,7 @@
 -- plugins/fzf-lua.lua
 return {
   "ibhagwan/fzf-lua",
+  lazy = false,
   requires = { "nvim-tree/nvim-web-devicons" },
   config = function()
     require("fzf-lua").setup({
