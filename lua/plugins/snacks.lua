@@ -162,12 +162,37 @@ return {
       explorer = { enabled = false },
     })
 
-       -- =========================
-    -- Keymaps (WHICH-KEY OK)
+    -- =========================
+    -- Keymaps 
     -- =========================
     vim.keymap.set("n", "<leader>gg", function()
       snacks.lazygit()
     end, { desc = "Git: LazyGit" })
+
+    vim.keymap.set("n", "<leader>gs", function()
+    require("snacks").picker.git_status()
+    end, { desc = "Git status (Snacks)" })
+
+    vim.keymap.set("n", "<leader>gb", function()
+    require("snacks").picker.git_branches()
+    end, { desc = "Git branches" })
+
+    vim.keymap.set("n", "<leader>gf", function()
+    require("snacks").picker.git_files()
+    end, { desc = "Git files" })
+
+    vim.keymap.set("n", "<leader><space>", function()
+    require("snacks").picker.smart()
+    end, { desc = "Smart picker" })
+
+   vim.keymap.set("n", "<leader>gG", function()
+   require("snacks").picker.commands()
+   end, { desc = "Command palette" })
+
+   vim.keymap.set("n", "<leader>xn", function()
+   require("snacks").picker.notifications()
+   end, { desc = "Notification history" })
+
   end,
 }
-
+ 

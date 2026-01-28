@@ -46,8 +46,8 @@ return {
       { "<leader>pp", desc = "Plugins (Lazy)" },
 
       -- Explorador (nvim-tree)
-      { "<leader>ee", desc = "Toggle file explorer" },
-      { "<leader>ef", desc = "Reveal file in tree" },
+      { "<leader>fn", desc = "Toggle file explorer" },
+      { "<leader>ft", desc = "Reveal file in tree" },
 
       -- Telescope / FZF
       { "<leader>ff", desc = "Find files" },
