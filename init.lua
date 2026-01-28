@@ -82,17 +82,15 @@ require("plugins.autopairs")
 require("plugins.comment")
 require("plugins.nvim-lint")
 require("plugins.render-markdown")
-require("ai.codecompanion")
 
 -- Git y utilidades
-require("plugins.gitsigns")
-require("plugins.utilities")
-require("plugins.lazygit")
+require('plugins.gitsigns')
+require('plugins.utilities')
+require('plugins.lazygit')
 
 -- Otros
-require("plugins.which-key")
-require('ai.avante')
-require("plugins.indent-blankline")
-require("plugins.barbar")
+require('plugins.which-key')
+require('plugins.indent-blankline')
+require('plugins.barbar')
 require('plugins.fterm')
 

@@ -158,7 +158,6 @@ return {
       -- ===== Git =====
       git = { enabled = true },
       gitbrowse = { enabled = true },
-
       explorer = { enabled = false },
     })
 
