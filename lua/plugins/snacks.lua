@@ -162,36 +162,55 @@ return {
       explorer = { enabled = false },
     })
 
-    -- =========================
-    -- Keymaps 
-    -- =========================
-    vim.keymap.set("n", "<leader>gg", function()
-      snacks.lazygit()
-    end, { desc = "Git: LazyGit" })
+local snacks = require("snacks")
+local map = vim.keymap.set
 
-    vim.keymap.set("n", "<leader>gs", function()
-    require("snacks").picker.git_status()
-    end, { desc = "Git status (Snacks)" })
+-- ========= FIND =========
+map("n", "<leader>ff", function()
+  snacks.picker.files()
+end, { desc = "Find files" })
 
-    vim.keymap.set("n", "<leader>gb", function()
-    require("snacks").picker.git_branches()
-    end, { desc = "Git branches" })
+map("n", "<leader>fb", function()
+  snacks.picker.buffers()
+end, { desc = "Buffers" })
 
-    vim.keymap.set("n", "<leader>gf", function()
-    require("snacks").picker.git_files()
-    end, { desc = "Git files" })
+map("n", "<leader>fr", function()
+  snacks.picker.recent()
+end, { desc = "Recent files" })
 
-    vim.keymap.set("n", "<leader><space>", function()
-    require("snacks").picker.smart()
-    end, { desc = "Smart picker" })
+map("n", "<leader><space>", function()
+  snacks.picker.smart()
+end, { desc = "Smart picker" })
 
-   vim.keymap.set("n", "<leader>gG", function()
-   require("snacks").picker.commands()
-   end, { desc = "Command palette" })
+-- ========= GIT =========
+map("n", "<leader>gs", function()
+  snacks.picker.git_status()
+end, { desc = "Git status" })
 
-   vim.keymap.set("n", "<leader>xn", function()
-   require("snacks").picker.notifications()
-   end, { desc = "Notification history" })
+map("n", "<leader>gb", function()
+  snacks.picker.git_branches()
+end, { desc = "Git branches" })
+
+map("n", "<leader>gg", function()
+  snacks.lazygit()
+end, { desc = "LazyGit" })
+
+-- ========= UI / SNACKS =========
+map("n", "<leader>ss", function()
+  snacks.picker.commands()
+end, { desc = "Command palette" })
+
+map("n", "<leader>sn", function()
+  snacks.picker.notifications()
+end, { desc = "Notifications" })
+
+map("n", "<leader>sx", function()
+  snacks.scratch()
+end, { desc = "Scratch buffer" })
+
+map("n", "<leader>sz", function()
+  snacks.zen()
+end, { desc = "Zen mode" })
 
   end,
 }

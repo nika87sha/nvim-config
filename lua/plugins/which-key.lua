@@ -22,56 +22,61 @@ return {
     -- =========================================================
     -- REGISTRO DE GRUPOS (NO MAPPINGS REALES)
     -- =========================================================
-
-    wk.add({
-      { "<leader>a", group = " AI" },
-      { "<leader>ap", group = " Prompts" },
-
-      { "<leader>c", group = " Code" },
-
-      { "<leader>e", group = " Edit / Explorer" },
-      { "<leader>ec", group = " Edit Configs" },
-
-      { "<leader>f", group = " Find" },
-
-      { "<leader>g", group = " Git" },
-      { "<leader>gt", group = "󰊢 Git Toggle" },
-
-      { "<leader>r", group = " Refactor" },
-
-      { "<leader>w", desc = "Save file" },
-      { "<leader>q", desc = "Quit" },
-      { "<leader>x", desc = "Save & Quit" },
-
-      { "<leader>pp", desc = "Plugins (Lazy)" },
-
-      -- Explorador (nvim-tree)
-      { "<leader>fn", desc = "Toggle file explorer" },
-      { "<leader>ft", desc = "Reveal file in tree" },
-
-      -- Telescope / FZF
+     wk.add({
+     -- =====================================================
+      -- FILES / FIND
+      -- =====================================================
+      { "<leader>f", group = "󰱼 Find / Files" },
       { "<leader>ff", desc = "Find files" },
-      { "<leader>fg", desc = "Live grep" },
-      { "<leader>fb", desc = "Buffers" },
-      { "<leader>fh", desc = "Help" },
+      { "<leader><space>", desc = "Smart picker" },
+      { "<leader>ft", desc = "Toggle file explorer" },
+      { "<leader>fn", desc = "Reveal file in explorer" },
 
-      -- Git (descripciones claras)
-      { "<leader>ga", desc = "Stage hunk" },
-      { "<leader>gr", desc = "Reset hunk" },
-      { "<leader>gb", desc = "Blame line" },
-      { "<leader>gd", desc = "Diff this" },
-      { "<leader>gp", desc = "Git pull" },
-      { "<leader>gP", desc = "Git push" },
-      { "<leader>gc", desc = "Git commit" },
+      -- =====================================================
+      -- BUFFERS
+      -- =====================================================
+      { "<leader>b", group = "󰓩 Buffers" },
+      { "<leader>bb", desc = "Switch buffer" },
+      { "<leader>bd", desc = "Delete buffer" },
+
+      -- =====================================================
+      -- GIT
+      -- =====================================================
+      { "<leader>g", group = "󰊢 Git" },
       { "<leader>gg", desc = "LazyGit" },
 
-      -- Refactor / LSP
-      { "<leader>rr", desc = "Rename symbol" },
-      { "<leader>ra", desc = "Search (Spectre)" },
-      { "<leader>rb", desc = "Search in file" },
-      { "<leader>rw", desc = "Search word" },
-      { "<leader>rd", desc = "Go to definition" },
+      -- =====================================================
+      -- LSP
+      -- =====================================================
+      { "<leader>l", group = "󰒋 LSP" },
+      { "<leader>lr", desc = "Rename symbol" },
+      { "<leader>la", desc = "Code action" },
+      { "<leader>ld", desc = "Go to definition" },
+      { "<leader>lD", desc = "Go to declaration" },
+      { "<leader>li", desc = "Go to implementation" },
+      { "<leader>lh", desc = "Hover documentation" },
+      { "<leader>ls", desc = "Signature help" },
+      { "<leader>lf", desc = "Format buffer" },
+
+      -- =====================================================
+      -- SNACKS / UI
+      -- =====================================================
+      { "<leader>s", group = "󰙵 Snacks / UI" },
+      { "<leader>sx", desc = "Scratch buffer" },
+      { "<leader>sz", desc = "Zen mode" },
+
+      -- =====================================================
+      -- PLUGINS / SYSTEM
+      -- =====================================================
+      { "<leader>p", group = "󰏖 Plugins" },
+      { "<leader>pp", desc = "Lazy plugin manager" },
+
+      -- =====================================================
+      -- FILE ACTIONS
+      -- =====================================================
+      { "<leader>w", desc = "Save file" },
+      { "<leader>q", desc = "Quit" },
     })
-  end,
+      end,
 }
 
