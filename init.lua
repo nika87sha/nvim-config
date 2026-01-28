@@ -58,7 +58,6 @@ require('snippets.java')
 require('snippets.bash')
 require('snippets.yaml_docker')
 
-require('plugins.avante')
 require('plugins.seeker')
 
 -- UI y tema
@@ -83,7 +82,7 @@ require("plugins.autopairs")
 require("plugins.comment")
 require("plugins.nvim-lint")
 require("plugins.render-markdown")
-require("plugins.codecompanion")
+require("ai.codecompanion")
 
 -- Git y utilidades
 require("plugins.gitsigns")
@@ -92,7 +91,7 @@ require("plugins.lazygit")
 
 -- Otros
 require("plugins.which-key")
-require("plugins.avante")
+require('ai.avante')
 require("plugins.indent-blankline")
 require("plugins.barbar")
 require('plugins.fterm')
