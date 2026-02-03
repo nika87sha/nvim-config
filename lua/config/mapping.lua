@@ -131,4 +131,7 @@ map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })
 map("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" })
 map("n", "<leader>pp", "<cmd>Lazy<CR>", { desc = "Plugin manager (Lazy)" })
 
-
+-- Deep link: tmux → nvim buffers
+map("n", "<leader>tb", function()
+  snacks.picker.buffers()
+end, { desc = "TMUX: Buffers (Snacks)" })

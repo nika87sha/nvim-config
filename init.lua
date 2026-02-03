@@ -87,6 +87,7 @@ require("plugins.render-markdown")
 require('plugins.gitsigns')
 require('plugins.utilities')
 require('plugins.lazygit')
+require('config.session')
 
 -- Otros
 require('plugins.which-key')
