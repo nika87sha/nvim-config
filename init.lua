@@ -43,11 +43,8 @@ require('lsp.python')
 --require('lsp.java')
 require('lsp.bash')
 require('lsp.yaml_docker')
-
--- UI
-require('ui.telescope')
-require('ui.bufferline')
-require('ui.hipatterns')
+require('lsp.docker')
+require('lsp.terraform')
 
 require('testing.neotest')
 require('testing.refactoring')
@@ -57,6 +54,10 @@ require('snippets.python')
 require('snippets.java')
 require('snippets.bash')
 require('snippets.yaml_docker')
+require('snippets.docker')
+require('snippets.kubernetes')
+require('snippets.terraform')
+require('snippets.ansible')
 
 require('plugins.seeker')
 
@@ -74,6 +75,7 @@ require("plugins.filetree")
 require("plugins.fzf-lua")
 require("plugins.fterm")
 require("plugins.cmp")
+require("plugins.toggleterm")
 
 -- Desarrollo
 require("plugins.mason")   -- << Asegúrate de tener este
@@ -82,16 +84,24 @@ require("plugins.autopairs")
 require("plugins.comment")
 require("plugins.nvim-lint")
 require("plugins.render-markdown")
+require("plugins.conform")
+require("plugins.trouble")
 
 -- Git y utilidades
 require('plugins.gitsigns')
 require('plugins.utilities')
 require('plugins.lazygit')
+require('plugins.diffview')
 require('config.session')
 
 -- Otros
 require('plugins.which-key')
 require('plugins.indent-blankline')
 require('plugins.barbar')
-require('plugins.fterm')
+
+-- ======================================
+-- 5️⃣ DevOps / Sysadmin Configuration
+-- ======================================
+require('config.mapping_devops')
+
 

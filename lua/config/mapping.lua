@@ -121,7 +121,7 @@ map("n", "<leader>sz", function()
 end, { desc = "Zen mode" })
 
 -- Vim REST Console
-("n", "<leader>xr", ":call VrcQuery()<CR>", {desc = "Run Rest"}) -- Run REST query
+map("n", "<leader>xr", ":call VrcQuery()<CR>", { desc = "Run REST query" })
 
 -- =========================================================
 -- SYSTEM
