@@ -4,7 +4,7 @@ return {
   config = function()
     require("toggleterm").setup({
       size = 20,
-      open_mapping = [[<C-\>]],
+      open_mapping = [[<C-\\>]],
       shade_filetypes = {},
       shade_terminals = true,
       shading_factor = 2,
@@ -80,5 +80,10 @@ return {
     function _BASH_TOGGLE()
       bash:toggle()
     end
+
+    -- Exponer funciones globalmente para mapeos
+    _G.BASH_TOGGLE = _BASH_TOGGLE
+    _G.PYTHON_TOGGLE = _PYTHON_TOGGLE
+    _G.NODE_TOGGLE = _NODE_TOGGLE
   end,
 }
