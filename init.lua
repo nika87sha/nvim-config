@@ -86,7 +86,6 @@ require('snippets.ansible')
 require('snippets.rust')
 
 -- UI componentes
-require('ui.bufferline')
 require('ui.hipatterns')
 
 -- Sesión

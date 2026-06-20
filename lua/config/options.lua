@@ -45,7 +45,7 @@ local global_options = {
     shiftwidth = 4,
     showcmd = false,
     showmode = false,
-    showtabline = 0,
+    showtabline = 2, -- 0=never, 1=only if >1 tab, 2=always (needed for barbar)
     sidescrolloff = 8,
     signcolumn = 'yes',
     smartcase = true,

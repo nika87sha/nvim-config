@@ -76,11 +76,23 @@ map('n', '<leader>e', '<cmd>:NvimTreeOpen<CR>', { desc = 'Explorer toggle' })
 map('n', '<leader>fn', '<cmd>:NvimTreeFindFile<CR>', { desc = 'Explorer find file' })
 
 -- =========================================================
--- BUFFERS
+-- BUFFERS (barbar.nvim)
 -- =========================================================
 
-map('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Delete buffer' })
-map('n', '<leader>bn', '<cmd>bufferNext<CR>', { desc = 'Next buffer' })
+map('n', '<leader>bd', '<cmd>BufferClose<CR>', { desc = 'Close buffer' })
+map('n', '<leader>bn', '<cmd>BufferNext<CR>', { desc = 'Next buffer' })
+map('n', '<leader>bp', '<cmd>BufferPrevious<CR>', { desc = 'Previous buffer' })
+map('n', '<leader>bl', '<cmd>BufferLast<CR>', { desc = 'Last buffer' })
+map('n', '<leader>bP', '<cmd>BufferPick<CR>', { desc = 'Pick buffer by index' })
+
+-- Navegación rápida tipo vim-unimpaired
+map('n', ']b', '<cmd>BufferNext<CR>', { desc = 'Next buffer' })
+map('n', '[b', '<cmd>BufferPrevious<CR>', { desc = 'Previous buffer' })
+
+-- Moverse al buffer por número (Alt + 1..9)
+for i = 1, 9 do
+    map('n', '<A-' .. i .. '>', '<cmd>BufferGoto ' .. i .. '<CR>', { desc = 'Buffer ' .. i })
+end
 
 -- =========================================================
 -- GIT
