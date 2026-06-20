@@ -1,105 +1,104 @@
 -- Opciones básicas de Neovim
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.clipboard = "unnamedplus"
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
-vim.opt.smartindent = true
-vim.opt.wrap = false
-vim.opt.cursorline = true
-vim.opt.termguicolors = true
-vim.opt.mouse = "a"
+-- Se aplican con pcall para evitar errores de opciones buffer-local durante startup
 
-local options = {
+-- Opciones globales scope General
+vim.g.netrw_winsize = 20
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 1
+vim.g.markdown_recommended_style = 0
+vim.g.maplocalleader = ' '
+
+-- Opciones de Neovim agrupadas por categoría
+local global_options = {
+    -- Editor
     ai = true,
     autoindent = true,
     autowrite = true,
     backspace = 'indent,eol,start',
-    backup = false, -- creates a backup file
+    backup = false,
     breakindent = true,
-    clipboard = 'unnamedplus', -- allows neovim to access the system clipboard
-    cmdheight = 1, -- more space in the neovim command line for displaying messages
-    completeopt = 'menu,menuone,noselect', -- mostly just for cmp
-    conceallevel = 0, -- so that `` is visible in markdown files
-    confirm = true, -- Confirm to save changes before exiting modified buffer
-    cursorline = true, -- highlight the current line
-    expandtab = true, -- convert tabs to spaces
-    fileencoding = 'utf-8', -- the encoding written to a file
-    formatoptions = 'jlnqt', -- set formatoptions, check help fo-table
+    clipboard = 'unnamedplus',
+    cmdheight = 1,
+    completeopt = 'menu,menuone,noselect',
+    conceallevel = 0,
+    confirm = true,
+    cursorline = true,
+    expandtab = true,
+    fileencoding = 'utf-8',
     grepformat = '%f:%l:%c:%m',
     grepprg = 'rg --vimgrep',
-    hlsearch = true, -- highlight all matches on previous search pattern
-    ignorecase = true, -- ignore case in search patterns
-    inccommand = 'split', -- preview incremental substitute
+    hlsearch = true,
+    ignorecase = true,
+    inccommand = 'split',
     laststatus = 3,
     list = true,
-    listchars = { trail = '', tab = '', nbsp = '_', extends = '>', precedes = '<' }, -- highlight
-    mouse = 'a', -- allow the mouse to be used in neovim
-    number = true, -- set numbered lines
-    numberwidth = 4, -- set number column width to 2 {default 4}
-    pumblend = 10, -- Popup blen
-    pumheight = 10, -- pop up menu height
-    relativenumber = true, -- set relative numbered lines
-    scrolloff = 10, -- is one of my fav
+    listchars = { trail = '', tab = '', nbsp = '_', extends = '>', precedes = '<' },
+    mouse = 'a',
+    number = true,
+    numberwidth = 4,
+    pumblend = 10,
+    pumheight = 10,
+    relativenumber = true,
+    scrolloff = 10,
     sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal',
-    shiftround = true, -- Round indent
-    shiftwidth = 4, -- the number of spaces inserted for each indentation
+    shiftround = true,
+    shiftwidth = 4,
     showcmd = false,
-    showmode = false, -- we don't need to see things like -- INSERT -- anymore
-    showtabline = 0, -- always show tabs
-    si = true,
+    showmode = false,
+    showtabline = 2, -- 0=never, 1=only if >1 tab, 2=always (needed for barbar)
     sidescrolloff = 8,
-    signcolumn = 'yes', -- always show the sign column, otherwise it would shift the text each time
-    smartcase = true, -- smart case
-    smartindent = true, -- make indenting smarter again
+    signcolumn = 'yes',
+    smartcase = true,
+    smartindent = true,
     smarttab = true,
-    splitbelow = true, -- force all horizontal splits to go below current window
-    splitright = true, -- force all vertical splits to go to the right of current window
-    swapfile = false, -- creates a swapfile
-    tabstop = 4, -- insert 2 spaces for a tab
-    termguicolors = true, -- set term gui colors (most terminals support this)
-    timeoutlen = 300, -- time to wait for a mapped sequence to complete (in milliseconds)
-    title = true, -- window titles
-    undofile = true, -- enable persistent undo
-    undodir = vim.fn.stdpath('cache') .. '/undo',
+    splitbelow = true,
+    splitright = true,
+    swapfile = false,
+    tabstop = 4,
+    termguicolors = true,
+    timeoutlen = 300,
+    title = true,
+    undofile = true,
     undolevels = 10000,
-    updatetime = 50, -- faster completion (4000ms default)
-    wildmenu = true, -- wildmenu
-    wildmode = 'longest:full,full', -- Command-line completion mode
-    winminwidth = 5, -- Minimum window width
-    wrap = false, -- display lines as one long line
-    writebackup = false, -- do not edit backups
+    updatetime = 50,
+    wildmenu = true,
+    wildmode = 'longest:full,full',
+    wrap = false,
+    writebackup = false,
 }
 
-for k, v in pairs(options) do
-    vim.opt[k] = v
+-- Aplicar opciones globales
+for k, v in pairs(global_options) do
+    local ok, err = pcall(function()
+        vim.opt[k] = v
+    end)
+    if not ok then
+        vim.schedule(function()
+            vim.opt[k] = v
+        end)
+    end
 end
 
--- netrw file explorer settings
-vim.g.netrw_winsize = 20
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 1
+-- Opciones que necesitan append o manejo especial (se postergan al VimEnter)
+vim.schedule(function()
+    local ok, err = pcall(function()
+        vim.opt.formatoptions = 'jlnqt'
+        vim.opt.path:append({ '**' })
+        vim.opt.shortmess:append({ W = true, I = true, c = true })
+        vim.opt.fillchars:append({ eob = ' ' })
+        vim.opt.whichwrap = '<,>,[,],h,l'
+        pcall(function() vim.opt.iskeyword:append({ '-' }) end)
 
--- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
+        -- Undercurl support (solo terminal)
+        if vim.fn.has('terminal') == 1 then
+            vim.cmd([[let &t_Cs = "\e[4:3m"]])
+            vim.cmd([[let &t_Ce = "\e[4:0m"]])
+        end
+    end)
+    if not ok then
+        vim.notify('options.lua: alguna opción no se pudo aplicar: ' .. tostring(err), vim.log.levels.WARN)
+    end
+end)
 
-vim.opt.path:append({ '**' })
-vim.opt.shortmess:append({ W = true, I = true, c = true })
-
--- hides `~` at the end of the buffer
-vim.cmd([[set fillchars+=eob:\ ]])
-
-vim.cmd([[
-     setlocal spell spelllang=en "Set spellcheck language to en
-     setlocal spell! "Disable spell checks by default
-     filetype plugin indent on
-     if has('win32')
-        let g:python3_host_prog = $HOME . '/scoop/apps/python/current/python.exe'
-     endif
-    let &t_Cs = "\e[4:3m" "Undercurl
-    let &t_Ce = "\e[4:0m"
-    set whichwrap+=<,>,[,],h,l
-    set iskeyword+=-
- ]])
-
+-- filetype detection (se ejecuta inmediatamente, es seguro)
+vim.cmd('filetype plugin indent on')

@@ -1,13 +1,19 @@
--- plugins/fterm.lua
+-- ~/.config/nvim/lua/plugins/fterm.lua
+-- Terminal flotante para htop (útil para DevOps/SysAdmin)
 return {
   "numtostr/FTerm.nvim",
+  lazy = false,
+  event = "VeryLazy",
   config = function()
-    local fterm = require("FTerm")
+    local FTerm = require("FTerm")
 
-    _G.htop = fterm:new({
+    _G.htop = FTerm:new({
       ft = 'fterm_htop',
-      cmd = "htop"
+      cmd = "htop",
+      border = "rounded",
+      dimensions = { height = 0.8, width = 0.8 },
     })
-  end
-}
 
+    _G.ToggleFTerm = function() _G.htop:toggle() end
+  end,
+}

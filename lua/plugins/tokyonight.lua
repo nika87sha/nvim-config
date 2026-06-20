@@ -1,4 +1,6 @@
--- lua/plugins/theme.lua
+-- lua/plugins/tokyonight.lua
+-- ÚNICA definición de tokyonight.nvim
+-- colorscheme.lua fue mergeado acá y eliminado
 return {
   "folke/tokyonight.nvim",
   name = "tokyonight",
@@ -7,7 +9,7 @@ return {
   config = function()
     require("tokyonight").setup({
       style = "storm",        -- opciones: storm, night, day
-      transparent = true,    -- true si quieres fondo transparente
+      transparent = true,     -- true si quieres fondo transparente
       terminal_colors = true,
       styles = {
         comments = { italic = true },
@@ -16,6 +18,8 @@ return {
         variables = {},
         conditionals = { italic = true },
         loops = {},
+        sidebars = "transparent",
+        floats = "transparent",
       },
       sidebars = { "qf", "help", "packer" },
       hide_inactive_statusline = false,
@@ -25,4 +29,3 @@ return {
     vim.cmd.colorscheme("tokyonight")
   end,
 }
-

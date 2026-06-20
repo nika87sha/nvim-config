@@ -1,61 +1,88 @@
+-- lsp.lua: Configuración ÚNICA de LSP
+-- Usa mason-lspconfig como puente entre Mason y la configuración de servidores
+-- Compatible con Neovim v0.12.2
 return {
   "neovim/nvim-lspconfig",
-  -- Nota: nvim-lspconfig es la dependencia, no deberías usar un bloque 'config' para él.
-  -- Deberías usar 'mason-lspconfig' para configurarlo.
-
-  dependencies = { 
-      "williamboman/mason.nvim", 
-      "williamboman/mason-lspconfig.nvim" 
+  lazy = false, -- Se carga al inicio para que los módulos lsp/*.lua puedan usarlo
+  dependencies = {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "hrsh7th/cmp-nvim-lsp",
+    { "folke/which-key.nvim", lazy = true },
   },
-  
-  -- Este bloque 'config' ahora se centrará en configurar los servidores
-  -- usando el enfoque recomendado por mason-lspconfig.
   config = function()
-    local mason = require("mason")
-    local mason_lspconfig = require("mason-lspconfig")
+    local lspconfig = require("lspconfig")
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
     local wk = require("which-key")
 
-    mason.setup()
-    
-    -- 1. Definición de la función on_attach
+    -- ============================================
+    -- on_attach: se ejecuta cuando un LSP se conecta a un buffer
+    -- ============================================
     local on_attach = function(client, bufnr)
-      -- Tu configuración de which-key para atajos del LSP
-      local opts = { noremap = true, silent = true, buffer = bufnr } 
+      local bufopts = { noremap = true, silent = true, buffer = bufnr }
+
+      -- Atajos con which-key
       wk.register({
         l = {
           name = "LSP",
-          r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
-          a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-          d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Go to Definition" },
-          h = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
+          r = { vim.lsp.buf.rename, "Rename" },
+          a = { vim.lsp.buf.code_action, "Code Action" },
+          d = { vim.lsp.buf.definition, "Go to Definition" },
+          h = { vim.lsp.buf.hover, "Hover" },
         },
-      }, opts)
-    end
-    
-    -- 2. Configuración usando mason-lspconfig.setup_handlers
-    -- Esto garantiza que .setup() solo se llama si el servidor está instalado.
-    mason_lspconfig.setup({ 
-      ensure_installed = { "bashls", "jdtls", "pyright", "clangd", "groovyls", "ansiblels"},
-      
-      -- Usamos setup_handlers para definir una configuración por defecto
-      -- para todos los servidores instalados por mason.
-      handlers = {
-        -- Configuración por defecto para la mayoría de los servidores
-        function(server_name)
-            vim.lsp.config[server_name].setup({
-                on_attach = on_attach,
-            })
-        end,
-        
-        -- Si necesitas una configuración especial para Lua o Pyright:
-        -- lua_ls = function()
-        --     vim.lsp.config.lua_ls.setup({
-        --         on_attach = on_attach,
-        --         settings = { Lua = { ... } },
-        --     })
-        -- end,
-      }
-    })
+      }, { prefix = "<leader>", buffer = bufnr })
 
+      -- Atajos directos (por si no está which-key)
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+    end
+
+    -- ============================================
+    -- Configuración mason-lspconfig
+    -- ============================================
+    require("mason-lspconfig").setup({
+      ensure_installed = {
+        "bashls",       -- Bash
+        "jdtls",        -- Java
+        "pyright",      -- Python
+        "clangd",       -- C/C++
+        "groovyls",     -- Groovy (Jenkins pipelines)
+        "ansiblels",    -- Ansible
+        "lua_ls",       -- Lua
+        "rust_analyzer",-- Rust
+        "yamlls",       -- YAML (Docker, K8s, pipelines)
+        "dockerls",     -- Docker
+        "terraformls",  -- Terraform
+      },
+      automatic_installation = true,
+      handlers = {
+        -- Handler por defecto para TODOS los servidores
+        function(server_name)
+          lspconfig[server_name].setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+          })
+        end,
+        -- Podés agregar handlers específicos para servidores que necesiten
+        -- configuración especial, por ejemplo:
+        -- lua_ls = function()
+        --   lspconfig.lua_ls.setup({
+        --     capabilities = capabilities,
+        --     on_attach = on_attach,
+        --     settings = {
+        --       Lua = {
+        --         runtime = { version = "LuaJIT" },
+        --         diagnostics = { globals = { "vim" } },
+        --         workspace = {
+        --           library = vim.api.nvim_get_runtime_file("", true),
+        --         },
+        --       },
+        --     },
+        --   })
+        -- end,
+      },
+    })
   end,
 }

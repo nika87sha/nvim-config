@@ -1,5 +1,6 @@
 return {
   "romgrk/barbar.nvim",
+  lazy = false,
   config = function()
     vim.g.barbar_auto_setup = false
     require("barbar").setup({
