@@ -1,35 +1,10 @@
+-- mason.lua: SOLO configura Mason como instalador de herramientas
+-- La configuración de LSP va en lsp.lua
 return {
   "williamboman/mason.nvim",
-  dependencies = {
-    "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
-    "hrsh7th/cmp-nvim-lsp", -- opcional, para autocompletado
-  },
+  cmd = "Mason",
+  build = ":MasonUpdate",
   config = function()
-    -- Inicializa Mason
     require("mason").setup()
-
-    -- Inicializa mason-lspconfig
-    local mason_lspconfig = require("mason-lspconfig")
-
-    mason_lspconfig.setup({
-      ensure_installed = { "lua_ls", "pyright", "rust-analyzer", "ansible", "clang"}, -- ajusta a tus LSP
-      automatic_installation = true, -- ✅ solo boolean o lista
-    })
-
-    -- Capabilities para autocompletado
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-    -- Si existe setup_handlers (versiones nuevas)
-    if mason_lspconfig.setup_handlers then
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          lspconfig[server_name].setup({
-            capabilities = capabilities,
-          })
-        end,
-      })
-   end
   end,
 }
-

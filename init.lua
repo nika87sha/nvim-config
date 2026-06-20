@@ -1,4 +1,5 @@
 -- init.lua
+-- Configuración modular de Neovim para DevOps/SysAdmin
 -- ======================================
 -- 1️⃣ Leader
 -- ======================================
@@ -29,79 +30,70 @@ vim.api.nvim_create_autocmd("VimEnter", {
     })
   end,
 })
+
+-- Parche para vim.tbl_flatten deprecated en Neovim v0.12+
+-- Los plugins desactualizados (none-ls, fzf-lua, nvim-nio) lo usan
+-- esto evita el warning sin tener que esperar que los plugins se actualicen
+if vim.fn.has("nvim-0.11") == 1 then
+  vim.tbl_flatten = function(t)
+    return vim.iter(t):flatten(math.huge):totable()
+  end
+end
+
 -- ======================================
--- 3️⃣ Carga plugins desde plugins.lua
+-- 3️⃣ Carga plugins con Lazy.nvim
 -- ======================================
-require("lazy").setup('plugins')
+require("lazy").setup('plugins') -- lazy.nvim auto-descubre los archivos en lua/plugins/
 
 -- ======================================
 -- 4️⃣ Carga módulos de configuración
+-- (ORDEN IMPORTANTE: lib → options → funciones → autocmds → mappings → LSP → testing → snippets → UI)
 -- ======================================
 
--- LSP
-require('lsp.python')
---require('lsp.java')
-require('lsp.bash')
-require('lsp.yaml_docker')
-require('lsp.docker')
-require('lsp.terraform')
+-- Utilidades (debe ir primero porque otros módulos dependen de éstas)
+require('lib.util')
+require('lib.icons')
+require('lib.prompts')
 
+-- Opciones básicas de Neovim
+require('config.options')
+
+-- Funciones y comandos de usuario
+require('config.functions')
+
+-- Autocomandos
+require('config.autocmd')
+
+-- Mapeos generales
+require('config.mapping')
+
+-- LSP: La configuración de servidores se maneja desde plugins/lsp.lua (handlers de mason-lspconfig)
+-- Los archivos en lua/lsp/*.lua ya NO se cargan desde acá para evitar doble configuración
+
+-- Testing
 require('testing.neotest')
 require('testing.refactoring')
 
--- Snippets
+-- Snippets (se cargan todos)
 require('snippets.python')
-require('snippets.java')
+require('snippets.java') -- Si no usas Java, borrá esta línea y snippets/java.lua
 require('snippets.bash')
 require('snippets.yaml_docker')
 require('snippets.docker')
 require('snippets.kubernetes')
 require('snippets.terraform')
 require('snippets.ansible')
+require('snippets.rust')
 
-require('plugins.seeker')
+-- UI componentes
+require('ui.bufferline')
+require('ui.hipatterns')
 
--- UI y tema
-require("plugins.tokyonight")
-require("plugins.lualine")
-require("plugins.colorizer")
-require("plugins.twilight")
-require("plugins.mini-icons")
-
--- Navegación y búsqueda
-require("plugins.treesitter")
-require("plugins.telescope")
-require("plugins.filetree")
-require("plugins.fzf-lua")
-require("plugins.fterm")
-require("plugins.cmp")
-require("plugins.toggleterm")
-
--- Desarrollo
-require("plugins.mason")   -- << Asegúrate de tener este
-require("plugins.lsp")
-require("plugins.autopairs")
-require("plugins.comment")
-require("plugins.nvim-lint")
-require("plugins.render-markdown")
-require("plugins.conform")
-require("plugins.trouble")
-
--- Git y utilidades
-require('plugins.gitsigns')
-require('plugins.utilities')
-require('plugins.lazygit')
-require('plugins.diffview')
+-- Sesión
 require('config.session')
-
--- Otros
-require('plugins.which-key')
-require('plugins.indent-blankline')
-require('plugins.barbar')
 
 -- ======================================
 -- 5️⃣ DevOps / Sysadmin Configuration
+-- (Mapeos específicos para el flujo de trabajo DevOps)
 -- ======================================
 require('config.mapping_devops')
-
-
