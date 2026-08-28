@@ -31,7 +31,9 @@ return {
         local keymap = require("nvim-tree.keymap")
 
         -- 1️⃣ Aplicar TODOS los atajos por defecto de nvim-tree
-        keymap.on_attach_default(bufnr)
+        -- Mapeos por defecto de NvimTree
+        vim.keymap.set("n", "<CR>", api.node.open.edit, { buffer = bufnr, desc = "nvim-tree: Open" })
+        vim.keymap.set("n", "o", api.node.open.edit, { buffer = bufnr, desc = "nvim-tree: Open" })
 
         -- 2️⃣ Agregar atajos custom (sin pisar los defaults)
         -- Abrir en nueva pestaña (t)

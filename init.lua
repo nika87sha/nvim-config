@@ -28,6 +28,8 @@ vim.api.nvim_create_autocmd("VimEnter", {
       text = "󰭹",
       texthl = "Comment",
     })
+    -- Auto-start pomodoro si no está activo (async para no bloquear)
+    vim.fn.jobstart({"bash", "-c", "pgrep -f 'pomodoro-daemon.sh' > /dev/null 2>&1 || ~/.config/hypr/UserScripts/pomodoro-daemon.sh run"}, {detached = true})
   end,
 })
 

@@ -7,9 +7,6 @@ vim.g.maplocalleader = ' '
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- Snacks
-local snacks = require('snacks')
-
 -- =========================================================
 -- BASICO / CORE
 -- =========================================================
@@ -61,16 +58,20 @@ map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
 -- =========================================================
--- ARCHIVOS / FIND (SNACKS)
+-- ARCHIVOS / FIND
 -- =========================================================
 
--- map("n", "<leader>ff", function()
---   snacks.picker.files()
--- end, { desc = "Find files" })  -- Handled by snacks.lua
-
 map('n', '<leader><space>', function()
-    snacks.picker.smart()
-end, { desc = 'Smart picker' })
+    require('telescope.builtin').find_files()
+end, { desc = 'Find files (Telescope)' })
+
+local builtin = require('telescope.builtin')
+map('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
+map('n', '<leader>fa', builtin.find_files, { desc = 'Find all files' })
+map('n', '<leader>fF', builtin.git_files, { desc = 'Find git files' })
+map('n', '<leader>fg', builtin.live_grep, { desc = 'Grep (live)' })
+map('n', '<leader>fb', builtin.buffers, { desc = 'Buffers' })
+map('n', '<leader>fr', builtin.oldfiles, { desc = 'Recent files' })
 
 map('n', '<leader>e', '<cmd>:NvimTreeOpen<CR>', { desc = 'Explorer toggle' })
 map('n', '<leader>fn', '<cmd>:NvimTreeFindFile<CR>', { desc = 'Explorer find file' })
@@ -99,7 +100,7 @@ end
 -- =========================================================
 
 map('n', '<leader>gg', function()
-    snacks.lazygit()
+    require('lazygit').lazygit()
 end, { desc = 'LazyGit' })
 
 -- =========================================================
@@ -122,11 +123,14 @@ end, { desc = 'Format buffer' })
 -- =========================================================
 
 map('n', '<leader>sx', function()
-    snacks.scratch()
+    vim.cmd('enew')
+    vim.bo.buftype = 'nofile'
+    vim.bo.bufhidden = 'hide'
+    vim.bo.swapfile = false
 end, { desc = 'Scratch buffer' })
 
 map('n', '<leader>sz', function()
-    snacks.zen()
+    vim.cmd('ZenMode')
 end, { desc = 'Zen mode' })
 
 -- Vim REST Console
@@ -140,7 +144,22 @@ map('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
 map('n', '<leader>q', '<cmd>q<CR>', { desc = 'Quit' })
 map('n', '<leader>pp', '<cmd>Lazy<CR>', { desc = 'Plugin manager (Lazy)' })
 
+-- ActivityWatch report
+map('n', '<leader>ar', function()
+    local handle = io.popen("activity-report hoy 2>/dev/null")
+    if handle then
+        local result = handle:read("*a")
+        handle:close()
+        vim.cmd("new")
+        vim.bo.buftype = "nofile"
+        vim.bo.bufhidden = "hide"
+        vim.bo.swapfile = false
+        vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(result, "\n"))
+        vim.bomodifiable = false
+    end
+end, { desc = 'Activity report (hoy)' })
+
 -- Deep link: tmux → nvim buffers
 map('n', '<leader>tb', function()
-    snacks.picker.buffers()
-end, { desc = 'TMUX: Buffers (Snacks)' })
+    require('telescope.builtin').buffers()
+end, { desc = 'TMUX: Buffers (Telescope)' })
