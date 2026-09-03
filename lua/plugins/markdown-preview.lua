@@ -1,9 +1,6 @@
--- plugins/markdown-preview.lua
--- Previsualización de Markdown en el navegador
--- https://github.com/iamcco/markdown-preview.nvim
 return {
   "iamcco/markdown-preview.nvim",
-  cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+  lazy = false, -- Carga el plugin al inicio de Neovim
   build = function()
     vim.fn["mkdp#util#install"]()
   end,
@@ -13,7 +10,7 @@ return {
     vim.g.mkdp_auto_close = 1
     vim.g.mkdp_browser = "" -- usar navegador por defecto
     vim.g.mkdp_echo_preview_url = 1
-
+    vim.g.mkdp_port = "8888" -- Puerto fijo para evitar problemas
     -- Atajo para previsualizar markdown
     vim.keymap.set("n", "<leader>mp", "<cmd>MarkdownPreviewToggle<CR>", { desc = "Markdown preview toggle" })
   end,
