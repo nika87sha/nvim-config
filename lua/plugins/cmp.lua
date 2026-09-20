@@ -1,54 +1,31 @@
--- ~/.config/nvim/lua/plugins/cmp.lua
 return {
-  "hrsh7th/nvim-cmp",
+  "saghen/blink.cmp",
+  version = "1.*",
   event = "InsertEnter",
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",   -- LSP source
-    "hrsh7th/cmp-buffer",     -- buffer source
-    "hrsh7th/cmp-path",       -- path completions
-    "hrsh7th/cmp-cmdline",    -- cmdline completions
-    "L3MON4D3/LuaSnip",       -- snippet engine
-    "saadparwaiz1/cmp_luasnip" -- snippet completions
+    "rafamadriz/friendly-snippets",
+    "L3MON4D3/LuaSnip",
   },
-  config = function()
-    local cmp = require("cmp")
-    local luasnip = require("luasnip")
-
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
-      },
-      mapping = cmp.mapping.preset.insert({
-        ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      }),
-      sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "path" },
-      }),
-    })
-  end,
+  opts = {
+    keymap = {
+      preset = "super-tab",
+      ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<CR>"] = { "accept", "fallback" },
+      ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+      ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+    },
+    appearance = {
+      nerd_font_variant = "mono",
+    },
+    completion = {
+      documentation = { auto_show = true, auto_show_delay_ms = 200 },
+      menu = { draw = { columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } } } },
+    },
+    sources = {
+      default = { "lsp", "path", "snippets", "buffer" },
+    },
+    snippets = { preset = "luasnip" },
+    fuzzy = { implementation = "prefer_rust_with_warning" },
+  },
+  opts_extend = { "sources.default" },
 }
-

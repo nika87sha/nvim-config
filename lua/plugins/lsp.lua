@@ -1,18 +1,18 @@
 -- lsp.lua: Configuración ÚNICA de LSP
 -- Usa mason-lspconfig como puente entre Mason y la configuración de servidores
--- Compatible con Neovim v0.12.2
+-- Compatible con Neovim v0.12.2 + blink.cmp
 return {
   "neovim/nvim-lspconfig",
-  lazy = false, -- Se carga al inicio para que los módulos lsp/*.lua puedan usarlo
+  lazy = false,
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
+    "saghen/blink.cmp",
     { "folke/which-key.nvim", lazy = true },
   },
   config = function()
     local lspconfig = require("lspconfig")
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    local capabilities = require("blink.cmp").get_lsp_capabilities()
     local wk = require("which-key")
 
     -- ============================================
@@ -44,44 +44,26 @@ return {
     -- ============================================
     require("mason-lspconfig").setup({
       ensure_installed = {
-        "bashls",       -- Bash
-        "jdtls",        -- Java
-        "pyright",      -- Python
-        "clangd",       -- C/C++
-        "groovyls",     -- Groovy (Jenkins pipelines)
-        "ansiblels",    -- Ansible
-        "lua_ls",       -- Lua
-        "rust_analyzer",-- Rust
-        "yamlls",       -- YAML (Docker, K8s, pipelines)
-        "dockerls",     -- Docker
-        "terraformls",  -- Terraform
+        "bashls",
+        "jdtls",
+        "pyright",
+        "clangd",
+        "groovyls",
+        "ansiblels",
+        "lua_ls",
+        "rust_analyzer",
+        "yamlls",
+        "dockerls",
+        "terraformls",
       },
       automatic_installation = true,
       handlers = {
-        -- Handler por defecto para TODOS los servidores
         function(server_name)
           lspconfig[server_name].setup({
             capabilities = capabilities,
             on_attach = on_attach,
           })
         end,
-        -- Podés agregar handlers específicos para servidores que necesiten
-        -- configuración especial, por ejemplo:
-        -- lua_ls = function()
-        --   lspconfig.lua_ls.setup({
-        --     capabilities = capabilities,
-        --     on_attach = on_attach,
-        --     settings = {
-        --       Lua = {
-        --         runtime = { version = "LuaJIT" },
-        --         diagnostics = { globals = { "vim" } },
-        --         workspace = {
-        --           library = vim.api.nvim_get_runtime_file("", true),
-        --         },
-        --       },
-        --     },
-        --   })
-        -- end,
       },
     })
   end,

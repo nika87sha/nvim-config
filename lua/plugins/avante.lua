@@ -1,11 +1,12 @@
 -- ~/.config/nvim/lua/plugins/avante.lua
--- Asistente AI tipo Cursor (NO duplica config de CMP, eso está en cmp.lua)
+-- Asistente AI tipo Cursor - DISABLED: requires Rust 1.94+ (current: 1.92)
+-- Re-enable after: rustup update && cd ~/.local/share/nvim/lazy/avante.nvim && make
 return {
   'yetone/avante.nvim',
+  enabled = false,
   lazy = false,
   dependencies = {
     'MunifTanjim/nui.nvim',
-    -- CMP y sus fuentes ya están definidos en cmp.lua, no duplicar acá
   },
   build = 'make',
   config = function()

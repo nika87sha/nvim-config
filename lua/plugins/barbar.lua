@@ -1,16 +1,12 @@
 return {
-  "romgrk/barbar.nvim",
+  "echasnovski/mini.tabline",
+  version = "*",
   lazy = false,
   config = function()
-    vim.g.barbar_auto_setup = false
-    require("barbar").setup({
-      animation = false,
-      tabpages = true,
-      focus_on_close = "left",
-      hide = {extensions = false, inactive = false},
-      icons = {buffer_index = false, button = ""},
-      maximum_length = 25,
+    require("mini.tabline").setup({
+      show_icons = true,
+      set_vim_settings = true,
+      tabpage_section = "right",
     })
   end,
 }
-

@@ -3,49 +3,55 @@
 -- ======================================
 -- 1️⃣ Leader
 -- ======================================
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- ======================================
 -- 2️⃣ Lazy.nvim bootstrap
 -- ======================================
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git", "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable",
-    lazypath,
-  })
+    vim.fn.system({
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable',
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.api.nvim_create_autocmd("VimEnter", {
-  once = true,
-  callback = function()
-    vim.fn.sign_define("AvanteInputPromptSign", {
-      text = "󰭹",
-      texthl = "Comment",
-    })
-    -- Auto-start pomodoro si no está activo (async para no bloquear)
-    vim.fn.jobstart({"bash", "-c", "pgrep -f 'pomodoro-daemon.sh' > /dev/null 2>&1 || ~/.config/hypr/UserScripts/pomodoro-daemon.sh run"}, {detached = true})
-  end,
+vim.api.nvim_create_autocmd('VimEnter', {
+    once = true,
+    callback = function()
+        vim.fn.sign_define('AvanteInputPromptSign', {
+            text = '󰭹',
+            texthl = 'Comment',
+        })
+        -- Auto-start pomodoro si no está activo (async para no bloquear)
+        vim.fn.jobstart({
+            'bash',
+            '-c',
+            "pgrep -f 'pomodoro-daemon.sh' > /dev/null 2>&1 || ~/.config/hypr/UserScripts/pomodoro-daemon.sh run",
+        }, { detached = true })
+    end,
 })
 
 -- Parche para vim.tbl_flatten deprecated en Neovim v0.12+
 -- Los plugins desactualizados (none-ls, fzf-lua, nvim-nio) lo usan
 -- esto evita el warning sin tener que esperar que los plugins se actualicen
-if vim.fn.has("nvim-0.11") == 1 then
-  vim.tbl_flatten = function(t)
-    return vim.iter(t):flatten(math.huge):totable()
-  end
+if vim.fn.has('nvim-0.11') == 1 then
+    vim.tbl_flatten = function(t)
+        return vim.iter(t):flatten(math.huge):totable()
+    end
 end
+
 
 -- ======================================
 -- 3️⃣ Carga plugins con Lazy.nvim
 -- ======================================
-require("lazy").setup('plugins') -- lazy.nvim auto-descubre los archivos en lua/plugins/
+require('lazy').setup('plugins') -- lazy.nvim auto-descubre los archivos en lua/plugins/
 
 -- ======================================
 -- 4️⃣ Carga módulos de configuración
@@ -92,6 +98,9 @@ require('ui.hipatterns')
 
 -- Sesión
 require('config.session')
+
+-- Diagnostics (native quickfix integration)
+require('config.diagnostics')
 
 -- ======================================
 -- 5️⃣ DevOps / Sysadmin Configuration

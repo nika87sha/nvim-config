@@ -1,48 +1,53 @@
--- lua/plugins/nvim-tree.lua
 return {
-  "nvim-tree/nvim-tree.lua",
-  dependencies = "nvim-tree/nvim-web-devicons",
+  "stevearc/oil.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
   lazy = false,
-  config = function()
-    require("nvim-tree").setup({
-      view = {
-        width = 30,
-        side = "left",
-      },
-      git = { enable = true },
-      filters = { dotfiles = false },
-      actions = {
-        open_file = {
-          window_picker = { enable = false },
-          quit_on_open = false,
-        },
-      },
-      renderer = {
-        icons = {
-          show = {
-            file = true,
-            folder = true,
-            git = true,
-          },
-        },
-      },
-      on_attach = function(bufnr)
-        local api = require("nvim-tree.api")
-        local keymap = require("nvim-tree.keymap")
-
-        -- 1️⃣ Aplicar TODOS los atajos por defecto de nvim-tree
-        -- Mapeos por defecto de NvimTree
-        vim.keymap.set("n", "<CR>", api.node.open.edit, { buffer = bufnr, desc = "nvim-tree: Open" })
-        vim.keymap.set("n", "o", api.node.open.edit, { buffer = bufnr, desc = "nvim-tree: Open" })
-
-        -- 2️⃣ Agregar atajos custom (sin pisar los defaults)
-        -- Abrir en nueva pestaña (t)
-        vim.keymap.set("n", "t", api.node.open.tab, { buffer = bufnr, desc = "nvim-tree: Open in New Tab" })
-        -- Abrir en split vertical (v)
-        vim.keymap.set("n", "v", api.node.open.vertical, { buffer = bufnr, desc = "nvim-tree: Open in Vertical Split" })
-        -- Abrir en split horizontal (h)
-        vim.keymap.set("n", "h", api.node.open.horizontal, { buffer = bufnr, desc = "nvim-tree: Open in Horizontal Split" })
+  keys = {
+    { "<leader>e", "<cmd>Oil<CR>", desc = "Explorer toggle" },
+    { "<leader>fn", "<cmd>Oil --float<CR>", desc = "Explorer find file (float)" },
+  },
+  opts = {
+    default_file_explorer = true,
+    columns = { "icon", "permissions", "size", "mtime" },
+    view_options = {
+      show_hidden = true,
+      is_always_hidden = function(name, _)
+        return name == ".." or name == ".git"
       end,
-    })
-  end,
+    },
+    -- Disable confirmation when navigating (entering dirs/opening files)
+    prompt_save_on_select_new_entry = false,
+    -- Skip confirmation for simple edits (rename, create, delete)
+    skip_confirm_for_simple_edits = true,
+    keymaps = {
+      -- Navigation
+      ["<CR>"] = "actions.select",
+      ["o"] = "actions.select",
+      ["l"] = "actions.select",
+      ["h"] = "actions.parent",
+      ["-"] = "actions.parent",
+      ["_"] = "actions.open_cwd",
+      ["`"] = "actions.cd",
+      ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+
+      -- Splits
+      ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open in vertical split" },
+      ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open in horizontal split" },
+      ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open in new tab" },
+
+      -- Preview & close
+      ["gp"] = "actions.preview",
+      ["<C-c>"] = "actions.close",
+      ["q"] = "actions.close",
+      ["<Esc>"] = "actions.close",
+
+      -- File operations
+      ["<C-r>"] = "actions.refresh",
+      ["gs"] = "actions.change_sort",
+      ["gx"] = "actions.open_external",
+      ["g."] = "actions.toggle_hidden",
+      ["g\\"] = "actions.toggle_trash",
+    },
+    use_default_keymaps = false,
+  },
 }

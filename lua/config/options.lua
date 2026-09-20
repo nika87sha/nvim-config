@@ -18,7 +18,7 @@ local global_options = {
     backup = false,
     breakindent = true,
     clipboard = 'unnamedplus',
-    cmdheight = 1,
+    cmdheight = 3,
     completeopt = 'menu,menuone,noselect',
     conceallevel = 0,
     confirm = true,
@@ -32,7 +32,7 @@ local global_options = {
     inccommand = 'split',
     laststatus = 3,
     list = true,
-    listchars = { trail = '', tab = '', nbsp = '_', extends = '>', precedes = '<' },
+    listchars = { trail = '', tab = '', nbsp = '_', extends = '>', precedes = '<', lead = '│' },
     mouse = 'a',
     number = true,
     numberwidth = 4,
@@ -45,7 +45,7 @@ local global_options = {
     shiftwidth = 4,
     showcmd = false,
     showmode = false,
-    showtabline = 2, -- 0=never, 1=only if >1 tab, 2=always (needed for barbar)
+    showtabline = 2, -- 0=never, 1=only if >1 tab, 2=always (needed for mini.tabline)
     sidescrolloff = 8,
     signcolumn = 'yes',
     smartcase = true,

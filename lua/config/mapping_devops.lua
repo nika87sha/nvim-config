@@ -37,33 +37,11 @@ map("n", "<leader>gh", "<cmd>DiffviewFileHistory<CR>", { desc = "File history" }
 map("n", "<leader>gH", "<cmd>DiffviewFileHistory %<CR>", { desc = "File history (current)" })
 
 -- =========================================================
--- DIAGNOSTICS & LSP
+-- DIAGNOSTICS & LSP (native quickfix, no trouble.nvim)
 -- =========================================================
 
--- Trouble
-map("n", "<leader>xx", function()
-  require("trouble").toggle()
-end, { desc = "Toggle trouble" })
-
-map("n", "<leader>xw", function()
-  require("trouble").toggle("workspace_diagnostics")
-end, { desc = "Workspace diagnostics" })
-
-map("n", "<leader>xd", function()
-  require("trouble").toggle("document_diagnostics")
-end, { desc = "Document diagnostics" })
-
-map("n", "<leader>xq", function()
-  require("trouble").toggle("quickfix")
-end, { desc = "Quickfix list" })
-
-map("n", "<leader>xl", function()
-  require("trouble").toggle("loclist")
-end, { desc = "Location list" })
-
-map("n", "gR", function()
-  require("trouble").toggle("lsp_references")
-end, { desc = "LSP references" })
+-- These are now handled in lua/plugins/diagnostics.lua
+-- Keymaps: <leader>xx, <leader>xw, <leader>xd, <leader>xq, <leader>xl, gR
 
 -- =========================================================
 -- FILE/CONFIG MANAGEMENT
@@ -104,8 +82,10 @@ end, { desc = "Find Terraform files" })
 -- SYSTEM ADMINISTRATION
 -- =========================================================
 
--- Toggle hidden files in file explorer
-map("n", "<leader>fh", "<cmd>NvimTreeToggleHidden<CR>", { desc = "Toggle hidden files" })
+-- Toggle hidden files in oil.nvim (replaces NvimTreeToggleHidden)
+map("n", "<leader>fh", function()
+  require("oil").toggle_hidden()
+end, { desc = "Toggle hidden files (oil)" })
 
 -- Format current file
 map("n", "<leader>lf", function()
@@ -124,11 +104,48 @@ map("n", "<leader>rs", function()
   end
 end, { desc = "Run shell command" })
 
--- Execute current file as script
+-- Quick run - direct execution, shows output at bottom (NO terminal)
+map("n", "<leader>rq", function()
+  local ext = vim.fn.expand("%:e")
+  if ext == "py" then
+    vim.cmd("!python3 %")
+  elseif ext == "sh" or ext == "bash" then
+    vim.cmd("!bash %")
+  elseif ext == "js" then
+    vim.cmd("!node %")
+  elseif ext == "ts" then
+    vim.cmd("!ts-node %")
+  else
+    vim.cmd("!" .. vim.fn.expand("%"))
+  end
+end, { desc = "Quick run (output at bottom)" })
+
+-- Run Python file directly
+map("n", "<leader>rp", function()
+  vim.cmd("!python3 %")
+end, { desc = "Run Python file" })
+
+-- Run Python with arguments
+map("n", "<leader>rP", function()
+  local args = vim.fn.input("Python args: ")
+  vim.cmd("!python3 % " .. args)
+end, { desc = "Run Python file with args" })
+
+-- Execute current file (auto-detect)
 map("n", "<leader>rx", function()
-  local file = vim.fn.expand("%")
-  vim.cmd("!" .. file)
-end, { desc = "Execute current file" })
+  local ext = vim.fn.expand("%:e")
+  if ext == "py" then
+    vim.cmd("!python3 %")
+  elseif ext == "sh" or ext == "bash" then
+    vim.cmd("!bash %")
+  elseif ext == "js" then
+    vim.cmd("!node %")
+  elseif ext == "ts" then
+    vim.cmd("!ts-node %")
+  else
+    vim.cmd("!" .. vim.fn.expand("%"))
+  end
+end, { desc = "Execute current file (auto-detect)" })
 
 -- Copy file path
 map("n", "<leader>yp", function()
@@ -164,6 +181,17 @@ end, { desc = "Search word" })
 map("n", "<leader>fr", function()
   require("telescope.builtin").oldfiles()
 end, { desc = "Recent files" })
+
+-- Toggle cmdline height (more output space)
+map("n", "<leader>ch", function()
+  if vim.o.cmdheight == 1 then
+    vim.o.cmdheight = 10
+    vim.notify("Cmdline height: 10")
+  else
+    vim.o.cmdheight = 1
+    vim.notify("Cmdline height: 1")
+  end
+end, { desc = "Toggle cmdline height" })
 
 -- =========================================================
 -- HELP & DOCUMENTATION

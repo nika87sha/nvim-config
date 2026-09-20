@@ -73,26 +73,45 @@ map('n', '<leader>fg', builtin.live_grep, { desc = 'Grep (live)' })
 map('n', '<leader>fb', builtin.buffers, { desc = 'Buffers' })
 map('n', '<leader>fr', builtin.oldfiles, { desc = 'Recent files' })
 
-map('n', '<leader>e', '<cmd>:NvimTreeOpen<CR>', { desc = 'Explorer toggle' })
-map('n', '<leader>fn', '<cmd>:NvimTreeFindFile<CR>', { desc = 'Explorer find file' })
+map('n', '<leader>e', '<cmd>Oil<CR>', { desc = 'Explorer toggle' })
+map('n', '<leader>fn', '<cmd>Oil --float<CR>', { desc = 'Explorer find file (float)' })
 
 -- =========================================================
--- BUFFERS (barbar.nvim)
+-- BUFFERS (native + mini.tabline)
 -- =========================================================
 
-map('n', '<leader>bd', '<cmd>BufferClose<CR>', { desc = 'Close buffer' })
-map('n', '<leader>bn', '<cmd>BufferNext<CR>', { desc = 'Next buffer' })
-map('n', '<leader>bp', '<cmd>BufferPrevious<CR>', { desc = 'Previous buffer' })
-map('n', '<leader>bl', '<cmd>BufferLast<CR>', { desc = 'Last buffer' })
-map('n', '<leader>bP', '<cmd>BufferPick<CR>', { desc = 'Pick buffer by index' })
+local function buffer_pick()
+  local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+  if #buffers == 0 then return end
+  local items = {}
+  for _, buf in ipairs(buffers) do
+    table.insert(items, string.format("%d: %s", buf.bufnr, vim.fn.fnamemodify(buf.name, ":t")))
+  end
+  vim.ui.select(items, { prompt = "Select buffer: " }, function(choice, idx)
+    if choice and idx then
+      vim.cmd("buffer " .. buffers[idx].bufnr)
+    end
+  end)
+end
+
+map('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Close buffer' })
+map('n', '<leader>bn', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+map('n', '<leader>bp', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
+map('n', '<leader>bl', '<cmd>blast<CR>', { desc = 'Last buffer' })
+map('n', '<leader>bP', buffer_pick, { desc = 'Pick buffer by index' })
 
 -- Navegación rápida tipo vim-unimpaired
-map('n', ']b', '<cmd>BufferNext<CR>', { desc = 'Next buffer' })
-map('n', '[b', '<cmd>BufferPrevious<CR>', { desc = 'Previous buffer' })
+map('n', ']b', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+map('n', '[b', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
 
 -- Moverse al buffer por número (Alt + 1..9)
 for i = 1, 9 do
-    map('n', '<A-' .. i .. '>', '<cmd>BufferGoto ' .. i .. '<CR>', { desc = 'Buffer ' .. i })
+    map('n', '<A-' .. i .. '>', function()
+      local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+      if buffers[i] then
+        vim.cmd("buffer " .. buffers[i].bufnr)
+      end
+    end, { desc = 'Buffer ' .. i })
 end
 
 -- =========================================================
@@ -114,9 +133,9 @@ map('n', '<leader>lh', vim.lsp.buf.hover, { desc = 'Hover docs' })
 map('n', '<leader>ls', vim.lsp.buf.signature_help, { desc = 'Signature help' })
 map('n', '<leader>lr', vim.lsp.buf.rename, { desc = 'Rename symbol' })
 map('n', '<leader>la', vim.lsp.buf.code_action, { desc = 'Code action' })
-map('n', '<leader>lf', function()
+map('n', '<leader>lF', function()
     vim.lsp.buf.format({ async = true })
-end, { desc = 'Format buffer' })
+end, { desc = 'Format buffer (LSP fallback)' })
 
 -- =========================================================
 -- UI / SNACKS
@@ -155,7 +174,7 @@ map('n', '<leader>ar', function()
         vim.bo.bufhidden = "hide"
         vim.bo.swapfile = false
         vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(result, "\n"))
-        vim.bomodifiable = false
+        vim.bo.modifiable = false
     end
 end, { desc = 'Activity report (hoy)' })
 

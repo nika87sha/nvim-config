@@ -7,10 +7,10 @@ return {
         enabled = true,
         auto_trigger = true,
         keymap = {
-          accept = "<C-l>", -- acepta la sugerencia
+          accept = "<C-l>",
           next = "<C-]>",
           prev = "<C-[>",
-          dismiss = "<C-c>",
+          dismiss = "<C-d>",
         },
       },
       panel = {
@@ -21,7 +21,7 @@ return {
           jump_next = "]]",
           open = "<C-p>",
           close = "<C-c>",
-          accept = "<C-l>",
+          accept = "<C-y>",  -- cambiado de <C-l> para evitar duplicado
         },
       },
     })
