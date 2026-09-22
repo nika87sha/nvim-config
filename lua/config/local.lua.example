@@ -1,0 +1,21 @@
+-- Copia este archivo a local.lua y adapta los valores
+-- NO COMITEAR local.lua (está en .gitignore)
+return {
+  -- Servidores SSH (deben coincidir con ~/.ssh/config Host aliases)
+  servers = {
+    rpi = "balboa",      -- ej: "rpi3", "server1", etc.
+    nas = "nas",         -- ej: "nas", "storage", etc.
+  },
+
+  -- ActivityWatch
+  activitywatch = {
+    host = "192.168.1.200",
+    port = "5600",
+    hostname = "delos",
+  },
+
+  -- Rutas específicas de esta máquina
+  paths = {
+    pomodoro_script = vim.fn.expand("~/.config/hypr/UserScripts/pomodoro-daemon.sh"),
+  },
+}

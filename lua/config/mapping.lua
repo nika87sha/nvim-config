@@ -123,21 +123,6 @@ map('n', '<leader>gg', function()
 end, { desc = 'LazyGit' })
 
 -- =========================================================
--- LSP
--- =========================================================
-
-map('n', '<leader>ld', vim.lsp.buf.definition, { desc = 'Go to definition' })
-map('n', '<leader>lD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
-map('n', '<leader>li', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
-map('n', '<leader>lh', vim.lsp.buf.hover, { desc = 'Hover docs' })
-map('n', '<leader>ls', vim.lsp.buf.signature_help, { desc = 'Signature help' })
-map('n', '<leader>lr', vim.lsp.buf.rename, { desc = 'Rename symbol' })
-map('n', '<leader>la', vim.lsp.buf.code_action, { desc = 'Code action' })
-map('n', '<leader>lF', function()
-    vim.lsp.buf.format({ async = true })
-end, { desc = 'Format buffer (LSP fallback)' })
-
--- =========================================================
 -- UI / SNACKS
 -- =========================================================
 

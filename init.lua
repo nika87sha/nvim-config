@@ -7,6 +7,11 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- ======================================
+-- Local config (machine-specific, gitignored)
+-- ======================================
+local local_cfg = require('config.local')
+
+-- ======================================
 -- 2️⃣ Lazy.nvim bootstrap
 -- ======================================
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
@@ -33,7 +38,7 @@ vim.api.nvim_create_autocmd('VimEnter', {
         vim.fn.jobstart({
             'bash',
             '-c',
-            "pgrep -f 'pomodoro-daemon.sh' > /dev/null 2>&1 || ~/.config/hypr/UserScripts/pomodoro-daemon.sh run",
+            "pgrep -f 'pomodoro-daemon.sh' > /dev/null 2>&1 || " .. local_cfg.paths.pomodoro_script .. " run",
         }, { detached = true })
     end,
 })
@@ -47,6 +52,12 @@ if vim.fn.has('nvim-0.11') == 1 then
     end
 end
 
+
+-- ActivityWatch config (must be set before plugin loads)
+vim.g.aw_apiurl_host = local_cfg.activitywatch.host
+vim.g.aw_apiurl_port = local_cfg.activitywatch.port
+vim.g.aw_hostname = local_cfg.activitywatch.hostname
+vim.g.aw_api_timeout = 10
 
 -- ======================================
 -- 3️⃣ Carga plugins con Lazy.nvim

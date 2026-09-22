@@ -54,6 +54,16 @@ map("n", "<leader>fc", function()
   })
 end, { desc = "Find config files" })
 
+-- Edit nvim config directly
+map("n", "<leader>fe", function()
+  vim.cmd("edit " .. vim.fn.stdpath("config") .. "/init.lua")
+end, { desc = "Edit nvim config (init.lua)" })
+map("n", "<leader>fE", function()
+  require("telescope.builtin").find_files({
+    cwd = vim.fn.stdpath("config"),
+  })
+end, { desc = "Find nvim config files" })
+
 -- Find Docker files
 map("n", "<leader>fd", function()
   require("telescope.builtin").find_files({
@@ -71,7 +81,7 @@ map("n", "<leader>fk", function()
 end, { desc = "Find K8s files" })
 
 -- Find Terraform files
-map("n", "<leader>ft", function()
+map("n", "<leader>fT", function()
   require("telescope.builtin").find_files({
     search_dirs = { vim.loop.cwd() },
     find_command = { "find", ".", "-name", "*.tf" },
@@ -158,10 +168,13 @@ end, { desc = "Copy file path" })
 -- SNIPPETS QUICK ACCESS
 -- =========================================================
 
--- Insert Docker snippet
+-- Insert Docker snippet (usa friendly-snippets: en insert mode escribe 'docker' + <Tab>)
 map("n", "<leader>sd", function()
-  require("luasnip").snip_expand(require("luasnip").parse_snippet("dockerfile", ""))
-end, { desc = "Insert Dockerfile template" })
+  vim.cmd("startinsert")
+  vim.defer_fn(function()
+    vim.api.nvim_feedkeys("docker", "n", false)
+  end, 50)
+end, { desc = "Hint: type 'docker'<Tab> in insert for Dockerfile" })
 
 -- =========================================================
 -- SEARCH & GREP

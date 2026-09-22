@@ -58,10 +58,59 @@ return {
       },
       automatic_installation = true,
       handlers = {
+        -- Handler por defecto
         function(server_name)
           lspconfig[server_name].setup({
             capabilities = capabilities,
             on_attach = on_attach,
+          })
+        end,
+        -- Override para yamlls: schemas k8s, github actions, docker-compose, ansible
+        ["yamlls"] = function()
+          lspconfig.yamlls.setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+              yaml = {
+                schemaStore = {
+                  enable = true,
+                  url = "https://www.schemastore.org/json/catalog.json",
+                },
+                schemas = {
+                  kubernetes = "*.yaml",
+                  ["https://json.schemastore.org/github-workflow.json"] = ".github/workflows/*",
+                  ["https://json.schemastore.org/docker-compose.json"] = "docker-compose.yaml",
+                  ["https://json.schemastore.org/ansible-playbook.json"] = "**/playbooks/**/*.{yml,yaml}",
+                  ["https://json.schemastore.org/ansible-vault.json"] = "**/vault*.{yml,yaml}",
+                },
+                customTags = {
+                  "!vault",
+                  "!include",
+                  "!reference",
+                  "!Cidr",
+                  "!vault scalar",
+                  "!vault sequence",
+                  "!vault mapping",
+                },
+                keyOrdering = false,
+              },
+            },
+          })
+        end,
+        -- Override para dockerls
+        ["dockerls"] = function()
+          lspconfig.dockerls.setup({
+            capabilities = capabilities,
+            on_attach = on_attach,
+            settings = {
+              docker = {
+                languageserver = {
+                  formatter = {
+                    ignoreMultilineInstructions = false,
+                  },
+                },
+              },
+            },
           })
         end,
       },

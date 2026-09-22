@@ -1,53 +1,51 @@
 return {
-  "stevearc/oil.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  lazy = false,
-  keys = {
-    { "<leader>e", "<cmd>Oil<CR>", desc = "Explorer toggle" },
-    { "<leader>fn", "<cmd>Oil --float<CR>", desc = "Explorer find file (float)" },
-  },
-  opts = {
-    default_file_explorer = true,
-    columns = { "icon", "permissions", "size", "mtime" },
-    view_options = {
-      show_hidden = true,
-      is_always_hidden = function(name, _)
-        return name == ".." or name == ".git"
-      end,
+    'stevearc/oil.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    lazy = false,
+    keys = {
+        { '<leader>e', '<cmd>Oil<CR>', desc = 'Explorer toggle' },
+        { '<leader>fn', '<cmd>Oil --float<CR>', desc = 'Explorer find file (float)' },
     },
-    -- Disable confirmation when navigating (entering dirs/opening files)
-    prompt_save_on_select_new_entry = false,
-    -- Skip confirmation for simple edits (rename, create, delete)
-    skip_confirm_for_simple_edits = true,
-    keymaps = {
-      -- Navigation
-      ["<CR>"] = "actions.select",
-      ["o"] = "actions.select",
-      ["l"] = "actions.select",
-      ["h"] = "actions.parent",
-      ["-"] = "actions.parent",
-      ["_"] = "actions.open_cwd",
-      ["`"] = "actions.cd",
-      ["~"] = { "actions.cd", opts = { scope = "tab" }, desc = ":tcd to the current oil directory" },
+    opts = {
+        default_file_explorer = false,
+        columns = {},  -- SIN columns - solo nombre por defecto
 
-      -- Splits
-      ["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open in vertical split" },
-      ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open in horizontal split" },
-      ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open in new tab" },
+        prompt_save_on_select_new_entry = false,
+        skip_confirm_for_simple_edits = true,
 
-      -- Preview & close
-      ["gp"] = "actions.preview",
-      ["<C-c>"] = "actions.close",
-      ["q"] = "actions.close",
-      ["<Esc>"] = "actions.close",
+        view_options = {
+            show_hidden = true,
+            is_always_hidden = function(name, _)
+                return name == '..' or name == '.git'
+            end,
+        },
 
-      -- File operations
-      ["<C-r>"] = "actions.refresh",
-      ["gs"] = "actions.change_sort",
-      ["gx"] = "actions.open_external",
-      ["g."] = "actions.toggle_hidden",
-      ["g\\"] = "actions.toggle_trash",
+        keymaps = {
+            ['<CR>'] = 'actions.select',
+            ['-'] = 'actions.parent',
+            ['q'] = 'actions.close',
+            ['<Esc>'] = 'actions.close',
+            ['<C-r>'] = 'actions.refresh',
+        },
+        use_default_keymaps = true,
     },
-    use_default_keymaps = false,
-  },
+    config = function(_, opts)
+        require('oil').setup(opts)
+
+        local local_cfg = require('config.local')
+
+        vim.api.nvim_create_user_command('OilRpi', function(cmd_args)
+            vim.cmd('Oil oil-ssh://' .. local_cfg.servers.rpi .. '//' .. (cmd_args.args ~= '' and cmd_args.args or ''))
+        end, { nargs = '?', complete = 'dir' })
+
+        vim.api.nvim_create_user_command('OilNas', function(cmd_args)
+            vim.cmd('Oil oil-ssh://' .. local_cfg.servers.nas .. '//' .. (cmd_args.args ~= '' and cmd_args.args or ''))
+        end, { nargs = '?', complete = 'dir' })
+
+        local map = vim.keymap.set
+        map('n', '<leader>or', '<cmd>OilRpi<CR>', { desc = 'Oil RPi root' })
+        map('n', '<leader>on', '<cmd>OilNas<CR>', { desc = 'Oil NAS root' })
+        map('n', '<leader>oe', '<cmd>OilRpi etc/<CR>', { desc = 'Oil RPi /etc' })
+        map('n', '<leader>od', '<cmd>OilNas mnt/datos/<CR>', { desc = 'Oil NAS /mnt/datos' })
+    end,
 }
